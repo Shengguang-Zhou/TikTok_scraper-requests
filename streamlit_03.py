@@ -1,5 +1,7 @@
 from extracting_03 import *
 from data_clean_03 import *
+import streamlit as st
+
 
 # ToDO:
 #  3. Add csv file uploadernand processer
