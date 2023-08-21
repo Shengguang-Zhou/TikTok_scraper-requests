@@ -1,6 +1,7 @@
 from extracting_03 import *
 from data_clean_03 import *
 import streamlit as st
+from scraper_03 import *
 
 
 # ToDO:
