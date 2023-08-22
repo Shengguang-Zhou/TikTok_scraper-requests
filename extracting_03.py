@@ -18,7 +18,7 @@ def extract_email(text):
     # try:
     #     return ',\n'.join(emails)
     # except:
-    return None
+    return ',\n'.join(emails)
 
 def extract_websites(text):
     # Remove email-like patterns from the text
