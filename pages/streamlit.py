@@ -19,7 +19,17 @@ if st.session_state.generated_text:
     st.write(st.session_state.generated_text)
 
 if st.button('Copy'):
-    subprocess.run("pbcopy", text=True, input=st.session_state.generated_text)
+       copy_js = """
+        <script>
+            function copyText() {
+                var copyText = document.getElementById("gen_text");
+                copyText.select();
+                document.execCommand("copy");
+            }
+        </script>
+        <button onclick="copyText()">Copy to Clipboard</button>
+    """
+    st.markdown(copy_js, unsafe_allow_html=True)
 
 
 
