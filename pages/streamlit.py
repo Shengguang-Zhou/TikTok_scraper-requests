@@ -19,7 +19,7 @@ if st.session_state.generated_text:
     st.write(st.session_state.generated_text)
 
 if st.button('Copy'):
-       copy_js = """
+    copy_js = """
         <script>
             function copyText() {
                 var copyText = document.getElementById("gen_text");
