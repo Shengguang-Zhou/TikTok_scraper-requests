@@ -40,8 +40,24 @@ def get_user_panel(usersnames):
     user_panel = getUsersInfoThru(usersnames)
     user_panel = pd.DataFrame(user_panel)
 
-    user_panel['email'] = user_panel.apply(lambda row: 'User ID已改变' if row.get("user_subtitle") == "User ID已改变" else extract_email(row['user_bio']), axis=1)
-    user_panel['Website'] = user_panel.apply(lambda row: 'User ID已改变' if row.get("user_subtitle") == "User ID已改变" else extract_websites(row['user_bio']), axis=1)
+    def email_extractor(row):
+        if row.get("user_subtitle") == "User ID已改变":
+            return 'User ID已改变'
+        else:
+            return extract_email(row['user_bio'])
+        
+    def website_extractor(row):
+        if row.get("user_subtitle") == "User ID已改变":
+            return 'User ID已改变'
+        else:
+            return extract_websites(row['user_bio'])
+
+    user_panel['email'] = user_panel.apply(email_extractor, axis=1)
+    user_panel['Website'] = user_panel.apply(website_extractor, axis=1)
+
+
+    # user_panel['email'] = user_panel.apply(lambda row: 'User ID已改变' if row.get("user_subtitle") == "User ID已改变" else extract_email(row['user_bio']), axis=1)
+    # user_panel['Website'] = user_panel.apply(lambda row: 'User ID已改变' if row.get("user_subtitle") == "User ID已改变" else extract_websites(row['user_bio']), axis=1)
     user_panel['是否已联系'] = ''
     return user_panel
 
