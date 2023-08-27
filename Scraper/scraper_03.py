@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import streamlit as st
+import pandas as pd
 
 def get_tiktok_userinfo(username):
     user_info = {}
@@ -36,14 +37,20 @@ def get_tiktok_userinfo(username):
 @st.cache_data()
 def getUsersInfoThru(userlist):
     info = []
+    placeholder = st.empty()
     for i in range(len(userlist)):
         try:
             user_info = get_tiktok_userinfo(userlist[i])
             info.append(user_info)
+            placeholder.table(pd.DataFrame(info))
+
         except Exception as e:
             print(f"Error for user {i}: {e}")
+        # sleep for avoiding IP ban
         random_sleep = 1 + 3 * random.random()
         time.sleep(random_sleep)
+
+    placeholder.empty()
     return info
 
 
