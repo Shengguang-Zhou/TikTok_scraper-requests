@@ -40,24 +40,8 @@ def get_user_panel(usersnames):
     user_panel = getUsersInfoThru(usersnames)
     user_panel = pd.DataFrame(user_panel)
 
-    def email_extractor(row):
-        if row.get("user_subtitle") == "User ID已改变":
-            return 'User ID已改变'
-        else:
-            return extract_email(row['user_bio'])
-        
-    def website_extractor(row):
-        if row.get("user_subtitle") == "User ID已改变":
-            return 'User ID已改变'
-        else:
-            return extract_websites(row['user_bio'])
-
-    user_panel['email'] = user_panel.apply(email_extractor, axis=1)
-    user_panel['Website'] = user_panel.apply(website_extractor, axis=1)
-
-
-    # user_panel['email'] = user_panel.apply(lambda row: 'User ID已改变' if row.get("user_subtitle") == "User ID已改变" else extract_email(row['user_bio']), axis=1)
-    # user_panel['Website'] = user_panel.apply(lambda row: 'User ID已改变' if row.get("user_subtitle") == "User ID已改变" else extract_websites(row['user_bio']), axis=1)
+    user_panel['email'] = user_panel.apply(lambda row: 'User ID已改变' if row.get("user_subtitle") == "User ID已改变" else extract_email(row['user_bio']), axis=1)
+    user_panel['Website'] = user_panel.apply(lambda row: 'User ID已改变' if row.get("user_subtitle") == "User ID已改变" else extract_websites(row['user_bio']), axis=1)
     user_panel['是否已联系'] = ''
     return user_panel
 
@@ -77,6 +61,7 @@ if st.session_state.uploaded:
 
 # Show user panel
 if st.session_state.uploaded:
+    st.session_state.user_panel = get_user_panel(st.session_state.todo_list)
     st.data_editor(st.session_state.user_panel,
                    column_config={
                        'Website':st.column_config.LinkColumn('相关网页',help = '该网页为用户个人/组织页面、网店、或其他合作方页面'),
@@ -91,9 +76,7 @@ with st.sidebar:
     if st.button('Upload'):
         if file_uploader:
             st.session_state.todo_list = csv_to_list(file_uploader)
-            st.session_state.user_panel = get_user_panel(st.session_state.todo_list)
             st.session_state.uploaded = True
-
         else:
             st.write('请上传文件')
 
