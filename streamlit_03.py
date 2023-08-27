@@ -39,8 +39,8 @@ else:
 def get_user_panel(usersnames):
     user_panel = getUsersInfoThru(usersnames)
     user_panel = pd.DataFrame(user_panel)
-    user_panel['Email'] = user_panel.apply(lambda row: '暂无联系方式' if row.get("message") == "User ID已改变" else extract_email(row['user_bio']), axis=1)
-    user_panel['Website'] = user_panel.apply(lambda row: '暂无相关网页' if row.get("message") == "User ID已改变" else extract_websites(row['user_bio']), axis=1)
+    user_panel['Email'] = user_panel.apply(lambda row: '暂无联系方式' if row.get("user_subtitle") == "User ID已改变" else extract_email(row['user_bio']), axis=1)
+    user_panel['Website'] = user_panel.apply(lambda row: '暂无相关网页' if row.get("user_subtitle") == "User ID已改变" else extract_websites(row['user_bio']), axis=1)
     user_panel['是否已联系'] = ''
     return user_panel
 
